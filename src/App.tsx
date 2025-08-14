@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Mail, Check, ChevronDown, User, Zap, Sparkles, Brain, Unlock, Infinity, Route, MessageSquare, Bot, Package, Wrench, TrendingUp, X } from 'lucide-react'
+import { Mail, Check, ChevronDown, User, Zap, Sparkles, Brain, Unlock, Infinity, Route, MessageSquare, Bot, Package, Wrench, TrendingUp, X, BookOpen, Award, Star } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -292,7 +292,7 @@ export default function App() {
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
               Master AI in Your
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">Digital Future</span>
+              <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse pb-1">Digital Future</span>
               <span className="block text-2xl md:text-3xl text-gray-300 font-normal mt-4">— No Coding Required</span>
             </h1>
           </ScrollFadeIn>
@@ -435,24 +435,62 @@ export default function App() {
 
             <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
               <div>
-                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">20+</div>
+                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">20+</div>
                 <div className="text-gray-300 mt-2">AI Tools Covered</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">{modules.length}</div>
+                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">{modules.length}</div>
                 <div className="text-gray-300 mt-2">Comprehensive Modules</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">5–10</div>
+                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">5–10</div>
                 <div className="text-gray-300 mt-2">Hours Saved Weekly</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Lifetime</div>
+                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Lifetime</div>
                 <div className="text-gray-300 mt-2">Access Included</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Live Q&A</div>
+                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Live Q&A</div>
                 <div className="text-gray-300 mt-2">Included</div>
+              </div>
+            </div>
+            {/* Plus, You'll Receive section */}
+            <div className="mt-16 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl shadow-cyan-500/10">
+              <div className="p-8 md:p-12">
+                <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-10">
+                  Plus, You’ll Receive:
+                </h3>
+                <div className="grid gap-8 md:grid-cols-2">
+                  <ul className="space-y-6 text-gray-200">
+                    <li className="flex items-start gap-3">
+                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
+                      <span>Lifetime access to course materials</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
+                      <span>Monthly live Q&A sessions</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
+                      <span>Completion certificate</span>
+                    </li>
+                  </ul>
+                  <ul className="space-y-6 text-gray-200">
+                    <li className="flex items-start gap-3">
+                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
+                      <span>Private community access</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
+                      <span>AI tool recommendations & updates</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
+                      <span>30-day money-back guarantee</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -462,32 +500,76 @@ export default function App() {
       <ScrollFadeIn>
         <section className="py-20 relative" style={{ backgroundColor: '#0c1b3d' }}>
           <div className="absolute inset-0 bg-gradient-to-b from-navy-800 via-navy-800 to-navy-800" style={{ background: 'linear-gradient(to bottom, #0f2147, #0f2147, #0f2147)' }} />
-          <div className="max-w-4xl mx-auto px-4 relative z-10">
+          <div className="max-w-6xl mx-auto px-4 relative z-10">
             <h2 className="text-4xl font-bold text-center text-white mb-16">
               Meet Your <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> AI Guide</span>
             </h2>
-            <Card className="max-w-3xl mx-auto backdrop-blur-md bg-white/5 border border-white/20 shadow-2xl">
-              <CardContent className="p-8">
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50" />
-                    <Avatar className="w-32 h-32 relative border-4 border-white/20">
-                      <AvatarImage src="/assets/images/default.svg" alt="Instructor" />
-                      <AvatarFallback className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-white">
-                        <User className="w-16 h-16 text-cyan-400" />
-                      </AvatarFallback>
-                    </Avatar>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+              <Card className="backdrop-blur-md bg-white/5 border border-white/20 shadow-2xl">
+                <CardContent className="p-8 h-full">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50" />
+                      <Avatar className="w-36 h-36 relative border-4 border-white/20">
+                        <AvatarImage src="/assets/images/default.svg" alt="AI Guide" />
+                        <AvatarFallback className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-white text-3xl font-bold">AI</AvatarFallback>
+                      </Avatar>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white">Dr. Alex Thompson</h3>
+                    <p className="text-cyan-400 font-semibold mt-1">AI Strategist & Education Pioneer</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-8">
+                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
+                        <Brain className="w-5 h-5 text-cyan-300 mt-0.5" />
+                        <div>
+                          <div className="text-white font-semibold">10+ Years</div>
+                          <div className="text-gray-300 text-sm">in AI & Technology</div>
+                        </div>
+                      </div>
+                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
+                        <BookOpen className="w-5 h-5 text-cyan-300 mt-0.5" />
+                        <div>
+                          <div className="text-white font-semibold">50,000+ Students</div>
+                          <div className="text-gray-300 text-sm">Taught</div>
+                        </div>
+                      </div>
+                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
+                        <Award className="w-5 h-5 text-cyan-300 mt-0.5" />
+                        <div>
+                          <div className="text-white font-semibold">AI Innovation Award</div>
+                          <div className="text-gray-300 text-sm">Winner</div>
+                        </div>
+                      </div>
+                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
+                        <Star className="w-5 h-5 text-cyan-300 mt-0.5" />
+                        <div>
+                          <div className="text-white font-semibold">4.9/5 Rating</div>
+                          <div className="text-gray-300 text-sm">Average from learners</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-center md:text-left">
-                    <h3 className="text-2xl font-bold text-white mb-2">Sarah Chen</h3>
-                    <p className="text-cyan-400 font-semibold mb-4">AI Strategist & Future-Tech Consultant</p>
-                    <p className="text-gray-300 leading-relaxed">
-                      Sarah is a visionary AI strategist who has empowered over 10,000+ professionals to harness the power of artificial intelligence. With expertise spanning neural networks, machine learning, and human-AI collaboration, she bridges the gap between cutting-edge technology and practical applications. Featured in top tech publications and keynoting major AI conferences, Sarah transforms complex AI concepts into actionable workflows that revolutionize how people work.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+
+              <div className="flex flex-col h-full">
+                <p className="text-gray-300 leading-relaxed mb-6">
+                  Alex brings both deep technical knowledge and real-world application expertise. As the founder of AI for Everyone Institute, Alex has
+                  helped thousands of professionals, entrepreneurs, and students transform their lives using artificial intelligence. The teaching
+                  approach focuses on practical implementation rather than theoretical concepts, ensuring students can immediately apply what they learn.
+                </p>
+                <Card className="backdrop-blur-md bg-white/5 border border-purple-300/30 shadow-2xl">
+                  <CardContent className="p-8">
+                    <h3 className="text-white text-xl font-bold mb-4">Notable Achievements:</h3>
+                    <ul className="space-y-4 text-gray-200 list-disc list-inside">
+                      <li>Featured speaker at AI Summit 2024 & TechCrunch Disrupt</li>
+                      <li>Author of "The AI-Powered Life" (bestseller)</li>
+                      <li>Advisor to Fortune 500 companies on AI implementation</li>
+                      <li>Creator of 5 top-rated AI courses with 200k+ students</li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </section>
       </ScrollFadeIn>
