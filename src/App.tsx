@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Mail, Check, ChevronDown, User, Zap, Sparkles, Brain, Unlock, Infinity, Route, MessageSquare, Bot, Package, Wrench, TrendingUp, X, BookOpen, Award, Star } from 'lucide-react'
+import { Mail, Check, ChevronDown, User, Zap, Sparkles, Brain, Unlock, Infinity, Route, MessageSquare, Bot, Package, Wrench, TrendingUp, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -270,10 +270,14 @@ export default function App() {
 
 
   const faqs = [
-    { question: 'Do I need any technical background?', answer: 'Not at all! This course is designed for complete beginners. We focus on practical applications, not coding or technical implementation.' },
-    { question: 'How long does the course take to complete?', answer: 'The course is designed to be completed in 3-4 weeks with about 2-3 hours per week of engagement. You can go at your own pace.' },
-    { question: 'What AI tools will I learn to use?', answer: "You'll master ChatGPT and explore other leading tools like Claude, Midjourney, and specialized AI applications for your industry." },
-    { question: 'Is there ongoing support after the course?', answer: "Yes! You'll get access to our community and monthly Q&A sessions to help you continue growing your AI skills." },
+    { question: 'What\'s the time commitment?', answer: 'Here\'s the beautiful part - this course has "negative time commitment". We recommend spending 2–4 hours a week but the skills you gain will save you 5+ hours every week for life. That\'s like earning time back. Plus, the pace is really up to you, with weekly live Q&As you can ask questions from whichever module your on.' },
+    { question: 'Do I need any technical or programming background?', answer: 'Absolutely not! You don\'t need to know a single line of code. We believe English is the new programming language. Everything you\'ll build uses no-code tools that anyone can master. Even if you\'ve never touched tools like ChatGPT, we\'ll guide you from the basics to advanced techniques. You\'ll surpass people who\'ve been using GPT for years in just weeks.' },
+    { question: 'When does the course start and how much does it cost?', answer: 'We\'ll email everyone on the waitlist with the exact start date, pricing, and exclusive early-bird discounts. Waitlist members will get prioritised access and the best deals!' },
+    { question: 'Are all the AI tools you covered free to use?', answer: 'Yes! Every tool we cover is either free or has a free version. When building your personalized AI arsenal, we\'ll also highlight premium tools that might be worth investing in, depending on your needs. We\'ll show you exactly which free alternatives you can use and when an upgrade could be worth it.' },
+    { question: 'What kind of support and community do I get?', answer: 'Absolutely. As a student, you\'ll get access to: a private Discord group for academy graduates, Live Q&A weekly, Q&A forum for imbetween Live weeklys, A dedicated AI tutor providing 24/7 support. You\'re never learning alone, and you\'ll get real results, not just watch videos.' },
+    { question: 'What devices can I use?', answer: 'A laptop or desktop is ideal, but the course works well on mobile and tablet. You can learn on the train, at lunch, or anywhere you like.' },
+    { question: 'What if I\'m not completely satisfied?', answer: 'We offer a 100% money-back guarantee. If you\'re not blown away after the results of the first two modules, get every penny back.' },
+    { question: 'How is this different from other AI courses?', answer: 'Most AI courses are heavy on theory, light on results. We\'re the opposite - every single module ends with you actually transforming how you use AI in your life. You\'ll see immediate results, not just learn for the sake of learning.' },
   ]
 
   return (
@@ -333,9 +337,9 @@ export default function App() {
                   <ul className="space-y-4 text-green-300">
                     {[
                       'Professionals, entrepreneurs, and freelancers ready to reclaim 5+ hours a week, supercharge their productivity, and stay ahead in their field.',
-                      'ChatGPT users who know AI much more than a replacement for Google search and want to finally unlock its *real* potential.',
+                      'ChatGPT users who know AI much more than a replacement for Google and want to finally unlock its *real* potential.',
                       'Ambitious learners who see the AI wave coming and want practical, usable skills *now* to work smarter, not harder.',
-                      'Professionals drowning in routine tasks who want to experience the \'I can\'t believe I ever did this manually\' moment as hours of work turn into minutes.',
+                      'Professionals drowning in routine tasks who want to experience the \"I can\'t believe I ever did this manually!\" moment as hours of work turn into minutes.',
                     ].map((text) => (
                       <li key={text} className="flex items-start group hover:text-green-200 transition-colors">
                         <div className="w-6 h-6 bg-green-400/20 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 group-hover:bg-green-400/30 transition-colors">
@@ -360,7 +364,7 @@ export default function App() {
                   <ul className="space-y-4 text-red-300">
                     {[
                       'Looking for AI theory? Sorry we’re here to make you unstoppable *using* AI, not explain it under the hood.',
-                      'Anyone wanting to code AI from scratch. We believe English is the new coding language, so we use no-code tools accessible to all.',
+                      'Anyone wanting to code AI from scratch. There\'s no coding here (Except in English).',
                       'University students without a business, idea, project, or real-life context to apply these skills.',
                       'People without any computer-based work (e.g., manual labour roles) where AI application is limited.',
                     ].map((text) => (
@@ -435,62 +439,24 @@ export default function App() {
 
             <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
               <div>
-                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">20+</div>
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">20+</div>
                 <div className="text-gray-300 mt-2">AI Tools Covered</div>
               </div>
               <div>
-                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">{modules.length}</div>
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">{modules.length}</div>
                 <div className="text-gray-300 mt-2">Comprehensive Modules</div>
               </div>
               <div>
-                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">5–10</div>
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">5+</div>
                 <div className="text-gray-300 mt-2">Hours Saved Weekly</div>
               </div>
               <div>
-                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Lifetime</div>
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Lifetime</div>
                 <div className="text-gray-300 mt-2">Access Included</div>
               </div>
               <div>
-                <div className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Live Q&A</div>
-                <div className="text-gray-300 mt-2">Included</div>
-              </div>
-            </div>
-            {/* Plus, You'll Receive section */}
-            <div className="mt-16 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md shadow-2xl shadow-cyan-500/10">
-              <div className="p-8 md:p-12">
-                <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-10">
-                  Plus, You’ll Receive:
-                </h3>
-                <div className="grid gap-8 md:grid-cols-2">
-                  <ul className="space-y-6 text-gray-200">
-                    <li className="flex items-start gap-3">
-                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
-                      <span>Lifetime access to course materials</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
-                      <span>Monthly live Q&A sessions</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
-                      <span>Completion certificate</span>
-                    </li>
-                  </ul>
-                  <ul className="space-y-6 text-gray-200">
-                    <li className="flex items-start gap-3">
-                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
-                      <span>Private community access</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
-                      <span>AI tool recommendations & updates</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="w-3 h-3 rounded-full bg-cyan-400 mt-2 shadow-[0_0_12px] shadow-cyan-400/60" />
-                      <span>30-day money-back guarantee</span>
-                    </li>
-                  </ul>
-                </div>
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Live Q&A</div>
+                <div className="text-gray-300 mt-2">Weekly</div>
               </div>
             </div>
           </div>
@@ -500,76 +466,41 @@ export default function App() {
       <ScrollFadeIn>
         <section className="py-20 relative" style={{ backgroundColor: '#0c1b3d' }}>
           <div className="absolute inset-0 bg-gradient-to-b from-navy-800 via-navy-800 to-navy-800" style={{ background: 'linear-gradient(to bottom, #0f2147, #0f2147, #0f2147)' }} />
-          <div className="max-w-6xl mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto px-4 relative z-10">
             <h2 className="text-4xl font-bold text-center text-white mb-16">
               Meet Your <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> AI Guide</span>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-              <Card className="backdrop-blur-md bg-white/5 border border-white/20 shadow-2xl">
-                <CardContent className="p-8 h-full">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="relative mb-6">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50" />
-                      <Avatar className="w-36 h-36 relative border-4 border-white/20">
-                        <AvatarImage src="/assets/images/default.svg" alt="AI Guide" />
-                        <AvatarFallback className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-white text-3xl font-bold">AI</AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white">Dr. Alex Thompson</h3>
-                    <p className="text-cyan-400 font-semibold mt-1">AI Strategist & Education Pioneer</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-8">
-                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
-                        <Brain className="w-5 h-5 text-cyan-300 mt-0.5" />
-                        <div>
-                          <div className="text-white font-semibold">10+ Years</div>
-                          <div className="text-gray-300 text-sm">in AI & Technology</div>
-                        </div>
-                      </div>
-                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
-                        <BookOpen className="w-5 h-5 text-cyan-300 mt-0.5" />
-                        <div>
-                          <div className="text-white font-semibold">50,000+ Students</div>
-                          <div className="text-gray-300 text-sm">Taught</div>
-                        </div>
-                      </div>
-                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
-                        <Award className="w-5 h-5 text-cyan-300 mt-0.5" />
-                        <div>
-                          <div className="text-white font-semibold">AI Innovation Award</div>
-                          <div className="text-gray-300 text-sm">Winner</div>
-                        </div>
-                      </div>
-                      <div className="rounded-lg border border-white/15 bg-white/5 p-4 text-left flex items-start gap-3">
-                        <Star className="w-5 h-5 text-cyan-300 mt-0.5" />
-                        <div>
-                          <div className="text-white font-semibold">4.9/5 Rating</div>
-                          <div className="text-gray-300 text-sm">Average from learners</div>
-                        </div>
-                      </div>
-                    </div>
+            <Card className="max-w-3xl mx-auto backdrop-blur-md bg-white/5 border border-white/20 shadow-2xl">
+              <CardContent className="p-8">
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50" />
+                    <Avatar className="w-32 h-32 relative border-4 border-white/20">
+                      <AvatarImage src="/assets/images/default.svg" alt="Instructor" />
+                      <AvatarFallback className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-white">
+                        <User className="w-16 h-16 text-cyan-400" />
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
-                </CardContent>
-              </Card>
-
-              <div className="flex flex-col h-full">
-                <p className="text-gray-300 leading-relaxed mb-6">
-                  Alex brings both deep technical knowledge and real-world application expertise. As the founder of AI for Everyone Institute, Alex has
-                  helped thousands of professionals, entrepreneurs, and students transform their lives using artificial intelligence. The teaching
-                  approach focuses on practical implementation rather than theoretical concepts, ensuring students can immediately apply what they learn.
-                </p>
-                <Card className="backdrop-blur-md bg-white/5 border border-purple-300/30 shadow-2xl">
-                  <CardContent className="p-8">
-                    <h3 className="text-white text-xl font-bold mb-4">Notable Achievements:</h3>
-                    <ul className="space-y-4 text-gray-200 list-disc list-inside">
-                      <li>Featured speaker at AI Summit 2024 & TechCrunch Disrupt</li>
-                      <li>Author of "The AI-Powered Life" (bestseller)</li>
-                      <li>Advisor to Fortune 500 companies on AI implementation</li>
-                      <li>Creator of 5 top-rated AI courses with 200k+ students</li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+                  <div className="text-center md:text-left">
+                    <h3 className="text-2xl font-bold text-white mb-2">Quham Adefila</h3>
+                    <p className="text-cyan-400 font-semibold mb-4">AI Educator & Developer</p>
+                    <p className="text-gray-300 leading-relaxed">
+                      <strong>*Meet Quham - the AI expert who bridges the gap between cutting-edge technology and real-world results.*</strong>
+                    </p>
+                    <p className="text-gray-300 leading-relaxed mt-4">
+                      From <strong>pioneering research at Google DeepMind</strong> (creators of Gemini) to applying AI and automation in finance at <strong>JP Morgan</strong>, Quham has worked at the forefront of AI innovation. He's also built solutions at a range of AI startups and even founded an AI startup serving the NHS and local authorities in Social Care. Along the way, he spotted a clear problem: most people were barely scratching the surface of AI's potential.
+                    </p>
+                    <p className="text-gray-300 leading-relaxed mt-4">
+                      Armed with a <strong>Master's in AI from Imperial College London</strong>, <strong>7+ years of teaching</strong>, and <strong>1M+ views</strong> on his educational content, Quham has helped everyone from Fortune 500 companies to individual professionals turn complex AI concepts into practical skills that transform the way they work.
+                    </p>
+                    <p className="text-gray-300 leading-relaxed mt-4">
+                      His mission is simple: make you unstoppable with AI, no coding required.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
       </ScrollFadeIn>
