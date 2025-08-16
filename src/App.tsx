@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Mail, Check, ChevronDown, User, Zap, Sparkles, Brain, Unlock, Infinity, Route, MessageSquare, Bot, Package, Wrench, TrendingUp, X } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -123,9 +124,32 @@ function FuturisticWaitlistForm({ className = '' }: { className?: string }) {
     defaultValues: { name: '', email: '', goal: '' },
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('Waitlist signup:', values)
-    alert(`Thanks ${values.name}! We'll notify you at ${values.email} when the course launches.\nYour goal: ${values.goal}`)
-    form.reset()
+    // EmailJS configuration - you'll need to set these up
+    const serviceId = 'YOUR_EMAILJS_SERVICE_ID' // Replace with your actual service ID
+    const templateId = 'YOUR_EMAILJS_TEMPLATE_ID' // Replace with your actual template ID
+    const publicKey = 'YOUR_EMAILJS_PUBLIC_KEY' // Replace with your actual public key
+
+    // Prepare email data
+    const templateParams = {
+      to_email: 'your-email@example.com', // Replace with your actual email
+      from_name: values.name,
+      from_email: values.email,
+      goal: values.goal,
+      message: `New waitlist signup from ${values.name} (${values.email})\n\nGoal: ${values.goal}`
+    }
+
+    // Send email using EmailJS
+    emailjs.send(serviceId, templateId, templateParams, publicKey)
+      .then((response) => {
+        console.log('Email sent successfully:', response)
+        alert(`Thanks ${values.name}! We'll notify you at ${values.email} when the Academy launches.\nYour goal: ${values.goal}`)
+        form.reset()
+      })
+      .catch((error) => {
+        console.error('Email failed to send:', error)
+        alert('Thanks for signing up! We received your information and will be in touch soon.')
+        form.reset()
+      })
   }
   return (
     <Card className={`w-full max-w-md mx-auto backdrop-blur-md bg-white/10 border border-white/20 shadow-2xl ${className}`}>
@@ -172,7 +196,7 @@ function FuturisticWaitlistForm({ className = '' }: { className?: string }) {
               name="goal"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-white font-medium">What do you want most out of the course?</FormLabel>
+                  <FormLabel className="text-white font-medium">What do you want most out of the Academy?</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="e.g., Automate client onboarding, master prompting, build a custom no-code assistant, etc."
@@ -188,7 +212,7 @@ function FuturisticWaitlistForm({ className = '' }: { className?: string }) {
               type="submit"
               className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 shadow-lg shadow-cyan-500/25 border-0 transition-all duration-300 hover:shadow-cyan-500/40 hover:scale-[1.02]"
             >
-              <Zap className="w-4 h-4 mr-2" /> 🚀 Join the Future
+              <Zap className="w-4 h-4 mr-2" /> Join the Future
             </Button>
           </form>
         </Form>
@@ -218,59 +242,59 @@ export default function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const modules = [
     {
-      title: 'Unlocking AI’s Power: Current Capabilities & Limitations',
+      title: 'AI\'s Power',
       description:
-        'Discover just how far AI can take you, but be aware of where it might fail. You’ll know exactly what AI can and cannot do, giving you the confidence to use it boldly while avoiding costly mistakes.',
-      unlock: 'AI true potential. understanding of the limitless possibilities with AI',
+        'Discover just how far AI can take you and be aware of where it might fail. Understanding AI what AI can and can\'t do will isn\'t only empowering but sparks ideas about the potential uses you didn\'t realise were possible.',
+      unlock: 'Unlock AI\'s true potential, understand of the limitless possibilities.',
       unlockIcon: Infinity,
     },
     {
-      title: 'Spotting High Impact Opportunities in Your Life',
+      title: 'Your High Impact Opportunities',
       description:
-        'Turn everyday problems into AI-powered solutions. You’ll learn how to scan your personal and professional life identifying 3-5 high-impact opportunities so you can reclaim time, boost productivity, and spark creativity.',
-      unlock: 'Your AI roadmap. A step-by-step plan for transforming the way you work, create, and think.',
+        'Turn everyday problems into AI-powered solutions. You\'ll learn how to scan your personal and professional life identifying 3-5 high-impact opportunities to reclaim time or boost productivity.',
+      unlock: 'Your personalised AI roadmap. A step-by-step plan transforming the way you work, create, and think.',
       unlockIcon: Route,
     },
     {
-      title: 'Mastering the C.L.E.A.R Prompting Method',
+      title: 'C.L.E.A.R.R Prompts',
       description:
-        'Never settle for mediocre AI outputs again. You’ll master a simple but powerful framework that transforms vague prompts into precision instructions, transforming the outputs you get from AI.',
-      unlock: 'C.L.E.A.R.R. prompts. Simple, powerful. Get exactly what you want.',
+        'Tired of AI not giving you generic or unhelpful responses. You\'ll master a simple but powerful framework to transform your prompting skills so you never get mediocre AI outputs again.',
+      unlock: 'C.L.E.A.R.R. prompts. Simple, powerful. The AI outputs you want.',
       unlockIcon: MessageSquare,
     },
     {
-      title: 'ChatGPT Like a Pro: Getting Maximum Value',
+      title: 'ChatGPT Like a Pro',
       description:
-        'From your average Google search ChatGPT user to the top 5%. You’ll learn the insider techniques, hidden features, and creative hacks that turn ChatGPT into your personal thought partner.',
-      unlock: 'ChatGPT, unleashed. From chatbot to your personal strategist, researcher, and brainstorming engine.',
+        'Still using ChatGPT like it\'s google search. It\'s so much more! Become the top 5% of ChatGpt users. You\'ll learn the insider techniques, hidden features, and creative hacks transforming chatgpt for you.',
+      unlock: 'ChatGPT, unleashed. Your personal thought partner. A strategist, researcher, and brainstorming engine.',
       unlockIcon: Bot,
     },
     {
-      title: 'Beyond GPT: Discovering the Most Impactful AI Tools',
+      title: 'Beyond GPT',
       description:
-        'When ChatGPT isn’t enough, you’ll know exactly where to go next. You’ll build a personal toolkit of cutting-edge apps and learn a simple system to keep finding the newest, most powerful tools for your life.',
+        'Chatgpt is only the beginning. You\'ll build a personal toolkit of cutting-edge AI apps perfect for you to incorporate and learn a simple system to keep finding the newest, most powerful tools for your life.',
       unlock: 'Your AI arsenal. The tools that give you an edge, and the system to keep it fresh and relevant.',
       unlockIcon: Package,
     },
     {
-      title: 'Your First AI Build: No-Code Tools & Automation',
+      title: 'Built for you by you',
       description:
-        'Go from user to creator—without writing a single line of code. You’ll walk through building your own fully personalised AI tool or automation that solves your specific need in your life or work.',
-      unlock: 'Your first AI build. Custom, no-code, built by you to solve your problem perfectly.',
+        'Even more personalised! Go from user to creator without writing a single line of code. You\'ll walk through building your own fully personalised AI tool or automation that solves your specific need.',
+      unlock: 'A fully customised tool for your problem built by you. And it\'s only the first!',
       unlockIcon: Wrench,
     },
     {
-      title: 'Leveling Up: Reviewing & Improving Your AI Creation',
+      title: 'Leveling Up',
       description:
-        'Turn a good AI tool into a great one. You’ll learn how to test, refine, and upgrade your AI creations so they stay effective, efficient, and ahead of the curve.',
-      unlock: 'Always better. A system for upgrading your tools so they grow with you.',
+        'It get\'s even better. Turn a good AI tool into a great one. You\'ll learn how to test, refine, and upgrade your AI creations so they stay effective, efficient, and ahead of the curve.',
+      unlock: 'Always better! A system for upgrading your tools to grow with you.',
       unlockIcon: TrendingUp,
     },
   ]
 
 
   const faqs = [
-    { question: 'What\'s the time commitment?', answer: 'Here\'s the beautiful part - this course has "negative time commitment". We recommend spending 2–4 hours a week but the skills you gain will save you 5+ hours every week for life. That\'s like earning time back. Plus, the pace is really up to you, with weekly live Q&As you can ask questions from whichever module your on.' },
+    { question: 'What\'s the time commitment?', answer: 'Here\'s the beautiful part - this course has "negative time commitment". We recommend spending 2–4 hours a week but the skills you gain will save you 5+ hours every week for life. So really you earn time back. Plus the pace is really up to you with weekly live Q&As you can ask questions about whichever module your on.' },
     { question: 'Do I need any technical or programming background?', answer: 'Absolutely not! You don\'t need to know a single line of code. We believe English is the new programming language. Everything you\'ll build uses no-code tools that anyone can master. Even if you\'ve never touched tools like ChatGPT, we\'ll guide you from the basics to advanced techniques. You\'ll surpass people who\'ve been using GPT for years in just weeks.' },
     { question: 'When does the course start and how much does it cost?', answer: 'We\'ll email everyone on the waitlist with the exact start date, pricing, and exclusive early-bird discounts. Waitlist members will get prioritised access and the best deals!' },
     { question: 'Are all the AI tools you covered free to use?', answer: 'Yes! Every tool we cover is either free or has a free version. When building your personalized AI arsenal, we\'ll also highlight premium tools that might be worth investing in, depending on your needs. We\'ll show you exactly which free alternatives you can use and when an upgrade could be worth it.' },
@@ -295,14 +319,14 @@ export default function App() {
               <span className="text-cyan-400 font-medium">Coming Soon!</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              Master AI in Your
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse pb-1">Digital Future</span>
+              Master AI
+              <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse pb-1">Academy</span>
               <span className="block text-2xl md:text-3xl text-gray-300 font-normal mt-4">— No Coding Required</span>
             </h1>
           </ScrollFadeIn>
           <ScrollFadeIn className="mt-8">
             <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Transform your workflow with cutting-edge AI tools. Save hours daily, amplify your creativity, and build your own AI solutions in just weeks.
+              Leverage AI to save 5+ hours a week, supercharge your productivity, and stay ahead in your field.
             </p>
           </ScrollFadeIn>
           <ScrollFadeIn className="mt-12">
@@ -310,7 +334,7 @@ export default function App() {
               onClick={() => setIsWaitlistOpen(true)}
               className="w-full max-w-md mx-auto bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 shadow-lg shadow-cyan-500/25 border-0 transition-all duration-300 hover:shadow-cyan-500/40 hover:scale-[1.02]"
             >
-              <Zap className="w-4 h-4 mr-2" /> 🚀 Join the Future
+              <Zap className="w-4 h-4 mr-2" /> Join the Future
             </Button>
           </ScrollFadeIn>
         </div>
@@ -321,7 +345,7 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-navy-900 via-navy-800 to-navy-900" style={{ background: 'linear-gradient(to bottom, #0c1b3d, #0f2147, #0c1b3d)' }} />
           <div className="max-w-6xl mx-auto px-4 relative z-10">
             <h2 className="text-4xl font-bold text-center text-white mb-16">
-              Is This Course Right for <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"> You</span>?
+              Is This Right for <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"> You</span>?
             </h2>
             <div className="grid md:grid-cols-2 gap-12">
               <Card className="backdrop-blur-md bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-400/30 shadow-2xl shadow-green-500/10">
@@ -336,16 +360,16 @@ export default function App() {
                 <CardContent className="p-6">
                   <ul className="space-y-4 text-green-300">
                     {[
-                      'Professionals, entrepreneurs, and freelancers ready to reclaim 5+ hours a week, supercharge their productivity, and stay ahead in their field.',
-                      'ChatGPT users who know AI much more than a replacement for Google and want to finally unlock its *real* potential.',
-                      'Ambitious learners who see the AI wave coming and want practical, usable skills *now* to work smarter, not harder.',
-                      'Professionals drowning in routine tasks who want to experience the \"I can\'t believe I ever did this manually!\" moment as hours of work turn into minutes.',
+                      'You\'re a professional, freelancer or entrepreneur, ready to reclaim <strong>5+ hours</strong> a week, supercharge their productivity, and stay ahead in their field.',
+                      'You use Chatgpt and know AI is much more than a replacement for Google and want to unlock its <strong>real</strong> potential.',
+                      'You\'re an ambitious learners who sees the <strong>AI takeover</strong> is here and wants skills to apply <strong>now</strong> to work smarter.',
+                      'You\'re someone drowning in routine tasks who wants that <strong>"I can\'t believe I used to do this manually!"</strong> moment as tasks go from hours to minutes.',
                     ].map((text) => (
                       <li key={text} className="flex items-start group hover:text-green-200 transition-colors">
                         <div className="w-6 h-6 bg-green-400/20 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 group-hover:bg-green-400/30 transition-colors">
                           <Check className="w-3 h-3 text-green-400" />
                         </div>
-                        {text}
+                        <span dangerouslySetInnerHTML={{ __html: text }} />
                       </li>
                     ))}
                   </ul>
@@ -363,16 +387,16 @@ export default function App() {
                 <CardContent className="p-6">
                   <ul className="space-y-4 text-red-300">
                     {[
-                      'Looking for AI theory? Sorry we’re here to make you unstoppable *using* AI, not explain it under the hood.',
-                      'Anyone wanting to code AI from scratch. There\'s no coding here (Except in English).',
-                      'University students without a business, idea, project, or real-life context to apply these skills.',
-                      'People without any computer-based work (e.g., manual labour roles) where AI application is limited.',
+                      'Looking for AI theory? Sorry we\'re here to make you unstoppable <strong>using</strong> AI, not explain it under the hood.',
+                      'You want to code or build models from scratch. There\'s no coding here (Except in English).',
+                      'You don\'t have a business, idea, project, or real-life context to <strong>apply</strong> these skills (e.g. most students).',
+                      'You don\'t have any computer-based work (e.g., manual labour roles) so your potential for AI application is limited.',
                     ].map((text) => (
                         <li key={text} className="flex items-start group hover:text-red-200 transition-colors">
                           <div className="w-6 h-6 bg-red-400/20 rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 group-hover:bg-red-400/30 transition-colors">
                             <X className="w-3 h-3 text-red-400" />
                           </div>
-                          {text}
+                          <span dangerouslySetInnerHTML={{ __html: text }} />
                         </li>
                     ))}
                   </ul>
@@ -388,18 +412,21 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-cyan-900/20" />
           <div className="max-w-6xl mx-auto px-4 relative z-10">
             <h2 className="text-4xl font-bold text-center text-white mb-16">
-              <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">Neural Network</span> Course Modules
+            Academy <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">Modules</span> 
+              
             </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
               {modules.map((module, index) => (
                 <Card
                   key={index}
-                  className={`group hover:scale-[1.02] transition-all duration-300 backdrop-blur-md bg-white/5 border border-white/10 hover:border-cyan-400/50 shadow-2xl hover:shadow-cyan-500/20`}
+                  className={`group hover:scale-[1.02] transition-all duration-300 backdrop-blur-md bg-white/5 border border-white/10 hover:border-cyan-400/50 shadow-2xl hover:shadow-cyan-500/20 ${
+                    index === modules.length - 1 ? 'lg:col-start-2' : ''
+                  }`}
                 >
                   <CardHeader className="pb-2">
                     <div className="flex items-center gap-2 justify-start">
                       <Badge className="mb-2 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 text-cyan-400 border-cyan-400/30 hover:from-cyan-400/30 hover:to-blue-500/30">
-                        <Brain className="w-3 h-3 mr-1" /> Module {index + 1}
+                        {module.unlockIcon && <module.unlockIcon className="w-3 h-3 mr-1" />} Module {index + 1}
                       </Badge>
                       {index === modules.length - 1 && (
                         <Badge className="mb-2 bg-gradient-to-r from-purple-400/20 to-pink-500/20 text-purple-300 border-purple-400/30 hover:from-purple-400/30 hover:to-pink-500/30">
@@ -410,31 +437,30 @@ export default function App() {
                     <CardTitle className={`text-lg text-white group-hover:text-cyan-400 transition-colors`}>{module.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pt-2 px-6 pb-6">
-                    <p className={`text-gray-300 group-hover:text-gray-200 transition-colors`}>{module.description}</p>
-                    {module.unlock && (
-                      <div className="mt-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300 group-hover:from-cyan-400/30 group-hover:to-blue-500/30 group-hover:border-cyan-400/50 transition-colors">
-                            <Unlock className="w-4 h-4" />
-                          </div>
-                          <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400/10 to-blue-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-200 group-hover:from-cyan-400/20 group-hover:to-blue-500/20 group-hover:border-cyan-400/40 transition-colors">
-                            {module.unlockIcon ? <module.unlockIcon className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
-                          </div>
-                        </div>
-                        <p className="text-cyan-200 mt-2">You'll unlock: {module.unlock}</p>
-                      </div>
-                    )}
+                    <div className="relative">
+                      <p className={`text-gray-300 group-hover:text-gray-200 transition-colors line-clamp-2 group-hover:line-clamp-none`}>
+                        {module.description}
+                      </p>
+                      <div className="absolute bottom-0 right-0 bg-gradient-to-l from-white/5 to-transparent w-8 h-6 group-hover:hidden transition-all duration-300" />
+                    </div>
+                                         {module.unlock && (
+                       <div className="mt-4">
+                         <p className="text-cyan-200">
+                           <Unlock className="w-4 h-4 text-cyan-300 inline mr-2" />
+                           {module.unlock}
+                         </p>
+                       </div>
+                     )}
                   </CardContent>
                 </Card>
               ))}
             </div>
-            <div className="mt-10 flex justify-center">
-              <Button
-                onClick={() => setIsWaitlistOpen(true)}
-                className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold px-6 py-3 shadow-lg shadow-cyan-500/25 border-0 transition-all duration-300 hover:shadow-cyan-500/40 hover:scale-[1.02]"
-              >
-                <Zap className="w-4 h-4 mr-2" /> 🚀 Join the Future
-              </Button>
+            
+
+            <div className="mt-8 text-center">
+              <p className="text-gray-400 text-sm">
+                <span className="text-amber-300">Note:</span> Module content and structure are currently being finalized and may be refined before launch.
+              </p>
             </div>
 
             <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
@@ -459,6 +485,14 @@ export default function App() {
                 <div className="text-gray-300 mt-2">Weekly</div>
               </div>
             </div>
+            <div className="mt-10 flex justify-center">
+              <Button
+                onClick={() => setIsWaitlistOpen(true)}
+                className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold px-6 py-3 shadow-lg shadow-cyan-500/25 border-0 transition-all duration-300 hover:shadow-cyan-500/40 hover:scale-[1.02]"
+              >
+                <Zap className="w-4 h-4 mr-2" /> Be the First to Know
+              </Button>
+            </div>
           </div>
         </section>
       </ScrollFadeIn>
@@ -468,7 +502,7 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-navy-800 via-navy-800 to-navy-800" style={{ background: 'linear-gradient(to bottom, #0f2147, #0f2147, #0f2147)' }} />
           <div className="max-w-4xl mx-auto px-4 relative z-10">
             <h2 className="text-4xl font-bold text-center text-white mb-16">
-              Meet Your <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> AI Guide</span>
+              The Academy <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> Lead</span>
             </h2>
             <Card className="max-w-3xl mx-auto backdrop-blur-md bg-white/5 border border-white/20 shadow-2xl">
               <CardContent className="p-8">
@@ -486,13 +520,13 @@ export default function App() {
                     <h3 className="text-2xl font-bold text-white mb-2">Quham Adefila</h3>
                     <p className="text-cyan-400 font-semibold mb-4">AI Educator & Developer</p>
                     <p className="text-gray-300 leading-relaxed">
-                      <strong>*Meet Quham - the AI expert who bridges the gap between cutting-edge technology and real-world results.*</strong>
+                      <span dangerouslySetInnerHTML={{ __html: '<strong>Meet Quham: the AI expert takes the complex world of AI and enables people to use it to achieve real world results.</strong>' }} />
                     </p>
                     <p className="text-gray-300 leading-relaxed mt-4">
-                      From <strong>pioneering research at Google DeepMind</strong> (creators of Gemini) to applying AI and automation in finance at <strong>JP Morgan</strong>, Quham has worked at the forefront of AI innovation. He's also built solutions at a range of AI startups and even founded an AI startup serving the NHS and local authorities in Social Care. Along the way, he spotted a clear problem: most people were barely scratching the surface of AI's potential.
+                      From <span dangerouslySetInnerHTML={{ __html: '<strong>pioneering research at Google DeepMind</strong>' }} /> (creators of Gemini) to applying AI and automation in finance at <span dangerouslySetInnerHTML={{ __html: '<strong>JP Morgan</strong>' }} />, Quham has worked at the forefront of AI innovation. He's also built AI solutions at a range of startups shaping the future and even founded an AI startup serving the NHS and local authorities in Social Care. Along the way, he spotted a clear problem: most people were barely scratching the surface of AI's potential.
                     </p>
                     <p className="text-gray-300 leading-relaxed mt-4">
-                      Armed with a <strong>Master's in AI from Imperial College London</strong>, <strong>7+ years of teaching</strong>, and <strong>1M+ views</strong> on his educational content, Quham has helped everyone from Fortune 500 companies to individual professionals turn complex AI concepts into practical skills that transform the way they work.
+                      Armed with a <span dangerouslySetInnerHTML={{ __html: '<strong>Master\'s in AI from Imperial College London</strong>' }} />, <span dangerouslySetInnerHTML={{ __html: '<strong>7+ years of teaching</strong>' }} />, and <span dangerouslySetInnerHTML={{ __html: '<strong>1M+ views</strong>' }} /> on his educational content, Quham has helped everyone from Fortune 500 companies to individual professionals turn complex AI concepts into practical skills that transform the way they work.
                     </p>
                     <p className="text-gray-300 leading-relaxed mt-4">
                       His mission is simple: make you unstoppable with AI, no coding required.
@@ -510,7 +544,7 @@ export default function App() {
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/20 to-pink-900/20" />
           <div className="max-w-4xl mx-auto px-4 relative z-10">
             <h2 className="text-4xl font-bold text-center text-white mb-16">
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Neural FAQ</span> Database
+              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">FAQ</span> 
             </h2>
             <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
@@ -535,13 +569,13 @@ export default function App() {
           <div className="absolute bottom-10 right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-xl animate-pulse delay-1000" />
           <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
             <h2 className="text-3xl font-bold text-white mb-8">
-              Don't Wait — <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Master AI Today</span>
+              Don't Wait — <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Gain your AI Advantage Today</span>
             </h2>
             <Button
               onClick={() => setIsWaitlistOpen(true)}
               className="w-full max-w-md mx-auto bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 shadow-lg shadow-cyan-500/25 border-0 transition-all duration-300 hover:shadow-cyan-500/40 hover:scale-[1.02]"
             >
-              <Zap className="w-4 h-4 mr-2" /> 🚀 Join the Future
+              <Zap className="w-4 h-4 mr-2" /> Unlock My AI Advantage
             </Button>
           </div>
         </section>
@@ -552,9 +586,9 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-4 relative z-10">
           <div className="flex items-center justify-center gap-2 mb-2">
             <Brain className="w-5 h-5 text-cyan-400" />
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-semibold">Everyday AI Mastery</span>
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-semibold">AI Advantage Academy</span>
           </div>
-          <p className="text-gray-500 text-sm">© 2024 Everyday AI Mastery. All rights reserved. • Powered by Neural Intelligence</p>
+          <p className="text-gray-500 text-sm">© 2025 AI Advantage Academy. All rights reserved.</p>
         </div>
       </footer>
       {isWaitlistOpen && (
