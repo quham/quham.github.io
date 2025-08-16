@@ -258,7 +258,7 @@ export default function App() {
     {
       title: 'C.L.E.A.R.R Prompts',
       description:
-        'Tired of AI not giving you generic or unhelpful responses. You\'ll master a simple but powerful framework to transform your prompting skills so you never get mediocre AI outputs again.',
+        'Tired of AI giving you generic or unhelpful responses. You\'ll master a simple but powerful framework to transform your prompting skills so you never get mediocre AI outputs again.',
       unlock: 'C.L.E.A.R.R. prompts. Simple, powerful. The AI outputs you want.',
       unlockIcon: MessageSquare,
     },
