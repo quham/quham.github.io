@@ -319,8 +319,9 @@ export default function App() {
               <span className="text-cyan-400 font-medium">Coming Soon!</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              Master AI
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse pb-1">Academy</span>
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse pb-1">AI Advantage </span>
+              <br />
+              Academy
               <span className="block text-2xl md:text-3xl text-gray-300 font-normal mt-4">— No Coding Required</span>
             </h1>
           </ScrollFadeIn>
