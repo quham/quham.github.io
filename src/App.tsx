@@ -272,11 +272,17 @@ function ScrollFadeIn({ children, className = '' }: { children: React.ReactNode;
 export default function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  
+  // Debug: Add a simple test to see if React is working
+  console.log('App component is rendering')
 
   // Set theme on mount and when theme changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
+
+  // Temporary simple return to test if component works
+  // return <div style={{color: 'red', fontSize: '24px', padding: '20px'}}>Test: React App is working!</div>
 
   const modules = [
     {
