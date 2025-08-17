@@ -32,8 +32,69 @@
   --accent-pink: #ec4899;
 }
 
+/* Reset default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html, body, #root {
   height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Mobile viewport height fix */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: -webkit-fill-available;
+  min-height: 100vh;
+  /* Mobile viewport height fix */
+  min-height: 100dvh;
+}
+
+#root {
+  min-height: 100vh;
+  /* Mobile viewport height fix */
+  min-height: 100dvh;
+}
+
+/* Additional mobile fixes */
+@media screen and (max-width: 768px) {
+  html, body, #root {
+    height: 100vh;
+    height: 100dvh;
+    overflow-x: hidden;
+  }
+  
+  /* Ensure no white space at top on mobile */
+  body {
+    padding-top: 0;
+    margin-top: 0;
+  }
+  
+  #root {
+    padding-top: 0;
+    margin-top: 0;
+  }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  html, body, #root {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Ensure body background matches theme to prevent white bars */
+body {
+  background-color: var(--bg-primary);
 }
 
 /* Theme transition */

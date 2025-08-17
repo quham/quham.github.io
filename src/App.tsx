@@ -348,10 +348,10 @@ export default function App() {
   const glassEffect = isLight ? 'bg-white/80 border-gray-200' : 'backdrop-blur-md bg-white/10 border border-white/20'
 
   return (
-    <div className={`min-h-screen ${bgColor} relative overflow-hidden`} data-theme={theme}>
+    <div className={`min-h-screen min-h-dvh ${bgColor} relative overflow-hidden`} data-theme={theme}>
       <ThemeToggle theme={theme} onThemeChange={setTheme} />
       
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative min-h-screen min-h-dvh flex items-center justify-center">
         <FuturisticBackground theme={theme} />
         <div className={`absolute inset-0 ${isLight ? 'bg-gradient-to-b from-transparent via-white/20 to-white/60' : 'bg-gradient-to-b from-transparent via-navy-900/20 to-navy-900/60'}`} />
         <div className={`absolute top-20 left-20 w-32 h-32 ${isLight ? 'bg-cyan-400/20' : 'bg-cyan-400/20'} rounded-full blur-xl animate-pulse`} />
@@ -387,7 +387,7 @@ export default function App() {
       </section>
 
       <ScrollFadeIn>
-        <section className={`py-20 relative ${isLight ? 'bg-gray-50' : 'bg-navy-900'}`}>
+        <section className={`py-20 relative min-h-dvh ${isLight ? 'bg-gray-50' : 'bg-navy-900'}`}>
           <div className={`absolute inset-0 ${isLight ? 'bg-gradient-to-b from-gray-50 via-gray-100 to-gray-50' : 'bg-gradient-to-b from-navy-900 via-navy-800 to-navy-900'}`} />
           <div className="max-w-6xl mx-auto px-4 relative z-10">
             <h2 className={`text-4xl font-bold text-center ${textColor} mb-16`}>
@@ -400,7 +400,7 @@ export default function App() {
                     <div className={`w-8 h-8 ${isLight ? 'bg-green-500/20' : 'bg-green-400/20'} rounded-full flex items-center justify-center mr-3`}>
                       <Check className="w-5 h-5" />
                     </div>
-                    Perfect for
+                    Perfect if
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-6">
@@ -434,7 +434,7 @@ export default function App() {
                 <CardContent className="p-6">
                   <ul className={`space-y-4 ${isLight ? 'text-red-700' : 'text-red-300'}`}>
                     {[
-                      'Looking for AI theory? Sorry we\'re here to make you unstoppable <strong>using</strong> AI, not explain it under the hood.',
+                      'Looking for AI theory? Sorry we\'re here to make you unstoppable <strong>using</strong> AI, not explain what\'s under the hood.',
                       'You want to code or build models from scratch. There\'s no coding here (Except in English).',
                       'You don\'t have a business, idea, project, or real-life context to <strong>apply</strong> these skills (e.g. most students).',
                       'You don\'t have any computer-based work (e.g., manual labour roles) so your potential for AI application is limited.',
