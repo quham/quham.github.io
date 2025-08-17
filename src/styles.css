@@ -2,8 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Light theme variables */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --accent-cyan: #00b4d8;
+  --accent-blue: #0077b6;
+  --accent-purple: #7209b7;
+  --accent-pink: #f72585;
+}
+
+[data-theme="dark"] {
+  /* Dark theme variables */
+  --bg-primary: #0c1b3d;
+  --bg-secondary: #0f2147;
+  --bg-tertiary: #1a365d;
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --accent-cyan: #00ff88;
+  --accent-blue: #0088ff;
+  --accent-purple: #a855f7;
+  --accent-pink: #ec4899;
+}
+
 html, body, #root {
   height: 100%;
+}
+
+/* Theme transition */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 @keyframes accordion-down {
@@ -43,6 +78,26 @@ html, body, #root {
   overflow: visible;
   display: block;
   -webkit-line-clamp: unset;
+}
+
+/* Light mode specific styles */
+[data-theme="light"] .glass-effect {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .card-light {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .text-gradient {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 
