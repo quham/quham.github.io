@@ -2,8 +2,24 @@ import React, { useEffect, useRef, useState } from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { Mail, Check, ChevronDown, User, Zap, Sparkles, Brain, Unlock, Infinity, Route, MessageSquare, Bot, Package, Wrench, TrendingUp, X } from 'lucide-react'
-import emailjs from '@emailjs/browser'
+// Import only needed icons to reduce bundle size
+import { 
+  Check, 
+  User, 
+  Zap, 
+  Sparkles, 
+  Brain, 
+  Unlock, 
+  Infinity, 
+  Route, 
+  MessageSquare, 
+  Bot, 
+  Package, 
+  Wrench, 
+  TrendingUp, 
+  X 
+} from 'lucide-react'
+// Lazy load emailjs only when needed
 
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
@@ -11,8 +27,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+// Temporarily disabled due to React hooks errors:
+// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
 const formSchema = z.object({
@@ -52,7 +69,7 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
       ? ['#00b4d8', '#0077b6', '#7209b7', '#f72585', '#00d4aa']
       : ['#00ff88', '#0088ff', '#ff0088', '#ffaa00', '#aa00ff']
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 15; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -65,8 +82,20 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
       })
     }
 
-    function animate() {
+    // Limit frame rate to 30fps for better performance
+    let lastTime = 0
+    const targetFPS = 30
+    const frameDelay = 1000 / targetFPS
+
+    function animate(currentTime: number) {
       if (!ctx || !canvas) return
+      
+      // Frame rate limiting
+      if (currentTime - lastTime < frameDelay) {
+        requestAnimationFrame(animate)
+        return
+      }
+      lastTime = currentTime
       
       if (theme === 'light') {
         const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
@@ -103,30 +132,32 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
           .padStart(2, '0')}`
         ctx.fill()
 
-        particles.slice(index + 1).forEach((otherParticle) => {
-          const dx = particle.x - otherParticle.x
-          const dy = particle.y - otherParticle.y
-          const distance = Math.sqrt(dx * dx + dy * dy)
-          if (distance < 150) {
-            ctx.beginPath()
-            ctx.moveTo(particle.x, particle.y)
-            ctx.lineTo(otherParticle.x, otherParticle.y)
-            const lineOpacity = (1 - distance / 150) * 0.3
-            const lineColor = theme === 'light' ? '#00b4d8' : '#00ff88'
-            ctx.strokeStyle = `${lineColor}${Math.floor(lineOpacity * 255)
-              .toString(16)
-              .padStart(2, '0')}`
-            ctx.lineWidth = 1
-            ctx.shadowBlur = 5
-            ctx.shadowColor = lineColor
-            ctx.stroke()
-          }
-        })
+        // Optimize: Only draw lines for nearby particles and limit calculations
+        if (index % 2 === 0) { // Only check every other particle for line connections
+          particles.slice(index + 1, index + 3).forEach((otherParticle) => {
+            const dx = particle.x - otherParticle.x
+            const dy = particle.y - otherParticle.y
+            const distance = Math.sqrt(dx * dx + dy * dy)
+            if (distance < 120) {
+              ctx.beginPath()
+              ctx.moveTo(particle.x, particle.y)
+              ctx.lineTo(otherParticle.x, otherParticle.y)
+              const lineOpacity = (1 - distance / 120) * 0.2
+              const lineColor = theme === 'light' ? '#00b4d8' : '#00ff88'
+              ctx.strokeStyle = `${lineColor}${Math.floor(lineOpacity * 255)
+                .toString(16)
+                .padStart(2, '0')}`
+              ctx.lineWidth = 1
+              ctx.shadowBlur = 0 // Remove shadow for performance
+              ctx.stroke()
+            }
+          })
+        }
       })
       ctx.shadowBlur = 0
       requestAnimationFrame(animate)
     }
-    animate()
+    animate(0) // Initialize with 0 timestamp
     return () => {
       window.removeEventListener('resize', resizeCanvas)
     }
@@ -141,33 +172,35 @@ function FuturisticWaitlistForm({ className = '', theme }: { className?: string;
     defaultValues: { name: '', email: '', goal: '' },
   })
   
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // EmailJS configuration - you'll need to set these up
-    const serviceId = 'YOUR_EMAILJS_SERVICE_ID' // Replace with your actual service ID
-    const templateId = 'YOUR_EMAILJS_TEMPLATE_ID' // Replace with your actual template ID
-    const publicKey = 'YOUR_EMAILJS_PUBLIC_KEY' // Replace with your actual public key
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      // Lazy load emailjs only when form is submitted
+      const emailjs = await import('@emailjs/browser')
+      
+      // EmailJS configuration - you'll need to set these up
+      const serviceId = 'YOUR_EMAILJS_SERVICE_ID' // Replace with your actual service ID
+      const templateId = 'YOUR_EMAILJS_TEMPLATE_ID' // Replace with your actual template ID
+      const publicKey = 'YOUR_EMAILJS_PUBLIC_KEY' // Replace with your actual public key
 
-    // Prepare email data
-    const templateParams = {
-      to_email: 'your-email@example.com', // Replace with your actual email
-      from_name: values.name,
-      from_email: values.email,
-      goal: values.goal,
-      message: `New waitlist signup from ${values.name} (${values.email})\n\nGoal: ${values.goal}`
+      // Prepare email data
+      const templateParams = {
+        to_email: 'your-email@example.com', // Replace with your actual email
+        from_name: values.name,
+        from_email: values.email,
+        goal: values.goal,
+        message: `New waitlist signup from ${values.name} (${values.email})\n\nGoal: ${values.goal}`
+      }
+
+      // Send email using EmailJS
+      await emailjs.default.send(serviceId, templateId, templateParams, publicKey)
+      console.log('Email sent successfully')
+      alert(`Thanks ${values.name}! We'll notify you at ${values.email} when the Academy launches.\nYour goal: ${values.goal}`)
+      form.reset()
+    } catch (error) {
+      console.error('Email failed to send:', error)
+      alert('Thanks for signing up! We received your information and will be in touch soon.')
+      form.reset()
     }
-
-    // Send email using EmailJS
-    emailjs.send(serviceId, templateId, templateParams, publicKey)
-      .then((response) => {
-        console.log('Email sent successfully:', response)
-        alert(`Thanks ${values.name}! We'll notify you at ${values.email} when the Academy launches.\nYour goal: ${values.goal}`)
-        form.reset()
-      })
-      .catch((error) => {
-        console.error('Email failed to send:', error)
-        alert('Thanks for signing up! We received your information and will be in touch soon.')
-        form.reset()
-      })
   }
   
   const isLight = theme === 'light'
@@ -252,18 +285,22 @@ function FuturisticWaitlistForm({ className = '', theme }: { className?: string;
   )
 }
 
+// Optimized ScrollFadeIn with reduced animation duration and simpler detection
 function ScrollFadeIn({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const [isVisible, setIsVisible] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) setIsVisible(true)
-    }, { threshold: 0.1 })
+      if (entry.isIntersecting) {
+        setIsVisible(true)
+        observer.unobserve(entry.target) // Stop observing once visible
+      }
+    }, { threshold: 0.05, rootMargin: '50px' }) // Trigger earlier for smoother experience
     if (ref.current) observer.observe(ref.current)
     return () => observer.disconnect()
   }, [])
   return (
-    <div ref={ref} className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${className}`}>
+    <div ref={ref} className={`transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'} ${className}`}>
       {children}
     </div>
   )
@@ -273,16 +310,14 @@ export default function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   
-  // Debug: Add a simple test to see if React is working
-  console.log('App component is rendering')
+
 
   // Set theme on mount and when theme changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
 
-  // Temporary simple return to test if component works
-  // return <div style={{color: 'red', fontSize: '24px', padding: '20px'}}>Test: React App is working!</div>
+
 
   const modules = [
     {
@@ -562,12 +597,10 @@ export default function App() {
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50" />
-                    <Avatar className="w-32 h-32 relative border-4 border-white/20">
-                      <AvatarImage src="/assets/images/default.svg" alt="Instructor" />
-                      <AvatarFallback className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-white">
-                        <User className="w-16 h-16 text-cyan-400" />
-                      </AvatarFallback>
-                    </Avatar>
+                    {/* Temporarily disabled Avatar component - causing React hooks error */}
+                    <div className="w-32 h-32 relative border-4 border-white/20 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center">
+                      <User className="w-16 h-16 text-cyan-400" />
+                    </div>
                   </div>
                   <div className="text-center md:text-left">
                     <h3 className={`text-2xl font-bold ${textColor} mb-2`}>Quham Adefila</h3>
@@ -599,18 +632,19 @@ export default function App() {
             <h2 className={`text-4xl font-bold text-center ${textColor} mb-16`}>
               <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">FAQ</span> 
             </h2>
-            <Accordion type="single" collapsible className="space-y-4">
+            {/* Temporarily disabled Accordion component - causing React hooks error */}
+            <div className="space-y-4">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`} className={`${cardBg} rounded-lg overflow-hidden hover:border-indigo-400/50 transition-colors`}>
-                  <AccordionTrigger className={`px-6 py-4 text-left hover:bg-white/5 transition-colors ${isLight ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+                <div key={index} className={`${cardBg} rounded-lg overflow-hidden hover:border-indigo-400/50 transition-colors`}>
+                  <div className={`px-6 py-4 text-left hover:bg-white/5 transition-colors ${isLight ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
                     <span className={`font-semibold ${isLight ? 'text-gray-800' : 'text-white'} group-hover:text-indigo-400 transition-colors`}>{faq.question}</span>
-                  </AccordionTrigger>
-                  <AccordionContent className={`px-6 pb-4 ${isLight ? 'bg-gray-50' : 'bg-white/5'}`}>
+                  </div>
+                  <div className={`px-6 pb-4 ${isLight ? 'bg-gray-50' : 'bg-white/5'}`}>
                     <p className={`${isLight ? 'text-gray-600' : 'text-gray-300'}`}>{faq.answer}</p>
-                  </AccordionContent>
-                </AccordionItem>
+                  </div>
+                </div>
               ))}
-            </Accordion>
+            </div>
           </div>
         </section>
       </ScrollFadeIn>
