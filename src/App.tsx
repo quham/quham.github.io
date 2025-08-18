@@ -27,9 +27,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-// Temporarily disabled due to React hooks errors:
-// import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { ThemeToggle } from '@/components/ThemeToggle'
 
 const formSchema = z.object({
@@ -157,7 +156,7 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
       ctx.shadowBlur = 0
       requestAnimationFrame(animate)
     }
-    animate(0) // Initialize with 0 timestamp
+    animate()
     return () => {
       window.removeEventListener('resize', resizeCanvas)
     }
@@ -597,10 +596,12 @@ export default function App() {
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50" />
-                    {/* Temporarily disabled Avatar component - causing React hooks error */}
-                    <div className="w-32 h-32 relative border-4 border-white/20 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full flex items-center justify-center">
-                      <User className="w-16 h-16 text-cyan-400" />
-                    </div>
+                    <Avatar className="w-32 h-32 relative border-4 border-white/20">
+                      <AvatarImage src="/assets/images/default.svg" alt="Instructor" />
+                      <AvatarFallback className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-white">
+                        <User className="w-16 h-16 text-cyan-400" />
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
                   <div className="text-center md:text-left">
                     <h3 className={`text-2xl font-bold ${textColor} mb-2`}>Quham Adefila</h3>
@@ -632,19 +633,18 @@ export default function App() {
             <h2 className={`text-4xl font-bold text-center ${textColor} mb-16`}>
               <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">FAQ</span> 
             </h2>
-            {/* Temporarily disabled Accordion component - causing React hooks error */}
-            <div className="space-y-4">
+            <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
-                <div key={index} className={`${cardBg} rounded-lg overflow-hidden hover:border-indigo-400/50 transition-colors`}>
-                  <div className={`px-6 py-4 text-left hover:bg-white/5 transition-colors ${isLight ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
+                <AccordionItem key={index} value={`item-${index}`} className={`${cardBg} rounded-lg overflow-hidden hover:border-indigo-400/50 transition-colors`}>
+                  <AccordionTrigger className={`px-6 py-4 text-left hover:bg-white/5 transition-colors ${isLight ? 'hover:bg-gray-50' : 'hover:bg-white/5'}`}>
                     <span className={`font-semibold ${isLight ? 'text-gray-800' : 'text-white'} group-hover:text-indigo-400 transition-colors`}>{faq.question}</span>
-                  </div>
-                  <div className={`px-6 pb-4 ${isLight ? 'bg-gray-50' : 'bg-white/5'}`}>
+                  </AccordionTrigger>
+                  <AccordionContent className={`px-6 pb-4 ${isLight ? 'bg-gray-50' : 'bg-white/5'}`}>
                     <p className={`${isLight ? 'text-gray-600' : 'text-gray-300'}`}>{faq.answer}</p>
-                  </div>
-                </div>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           </div>
         </section>
       </ScrollFadeIn>
