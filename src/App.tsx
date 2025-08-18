@@ -550,10 +550,10 @@ export default function App() {
               </p>
             </div>
 
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
+            <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
               <div>
-                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">20+</div>
-                <div className={`${isLight ? 'text-gray-600' : 'text-gray-300'} mt-2`}>AI Tools Covered</div>
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">10+</div>
+                <div className={`${isLight ? 'text-gray-600' : 'text-gray-300'} mt-2`}>Personalised Resources</div>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">{modules.length}</div>
@@ -568,8 +568,8 @@ export default function App() {
                 <div className={`${isLight ? 'text-gray-600' : 'text-gray-300'} mt-2`}>Access Included</div>
               </div>
               <div>
-                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Live Q&A</div>
-                <div className={`${isLight ? 'text-gray-600' : 'text-gray-300'} mt-2`}>Weekly</div>
+                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Live</div>
+                <div className={`${isLight ? 'text-gray-600' : 'text-gray-300'} mt-2`}>Q&A Weekly</div>
               </div>
             </div>
             <div className="mt-10 flex justify-center">
@@ -597,7 +597,7 @@ export default function App() {
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full blur-md opacity-50" />
                     <Avatar className="w-32 h-32 relative border-4 border-white/20">
-                      <AvatarImage src="/assets/images/default.svg" alt="Instructor" />
+                      <AvatarImage src="/assets/images/instructor.png" alt="Instructor" />
                       <AvatarFallback className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 text-white">
                         <User className="w-16 h-16 text-cyan-400" />
                       </AvatarFallback>
