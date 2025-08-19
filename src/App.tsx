@@ -39,6 +39,17 @@ const formSchema = z.object({
 
 function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationRef = useRef<number>()
+  const particlesRef = useRef<Array<{
+    x: number
+    y: number
+    vx: number
+    vy: number
+    size: number
+    opacity: number
+    color: string
+    pulse: number
+  }>>([])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -53,32 +64,24 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    const particles: Array<{
-      x: number
-      y: number
-      vx: number
-      vy: number
-      size: number
-      opacity: number
-      color: string
-      pulse: number
-    }> = []
+    // Only create particles once, not on every theme change
+    if (particlesRef.current.length === 0) {
+      const colors = theme === 'light' 
+        ? ['#00b4d8', '#0077b6', '#7209b7', '#f72585', '#00d4aa']
+        : ['#00ff88', '#0088ff', '#ff0088', '#ffaa00', '#aa00ff']
 
-    const colors = theme === 'light' 
-      ? ['#00b4d8', '#0077b6', '#7209b7', '#f72585', '#00d4aa']
-      : ['#00ff88', '#0088ff', '#ff0088', '#ffaa00', '#aa00ff']
-
-    for (let i = 0; i < 15; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8,
-        size: Math.random() * 4 + 1,
-        opacity: Math.random() * 0.6 + 0.2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        pulse: Math.random() * Math.PI * 2,
-      })
+      for (let i = 0; i < 15; i++) {
+        particlesRef.current.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
+          size: Math.random() * 4 + 1,
+          opacity: Math.random() * 0.6 + 0.2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          pulse: Math.random() * Math.PI * 2,
+        })
+      }
     }
 
     // Limit frame rate to 30fps for better performance
@@ -91,28 +94,15 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
       
       // Frame rate limiting
       if (currentTime - lastTime < frameDelay) {
-        requestAnimationFrame(animate)
+        animationRef.current = requestAnimationFrame(animate)
         return
       }
       lastTime = currentTime
       
-      if (theme === 'light') {
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
-        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)')
-        gradient.addColorStop(0.5, 'rgba(248, 250, 252, 0.95)')
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0.95)')
-        ctx.fillStyle = gradient
-      } else {
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
-        gradient.addColorStop(0, 'rgba(12, 27, 61, 0.95)')
-        gradient.addColorStop(0.5, 'rgba(15, 33, 71, 0.95)')
-        gradient.addColorStop(1, 'rgba(12, 27, 61, 0.95)')
-        ctx.fillStyle = gradient
-      }
-      
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      // Clear the canvas with transparent background to prevent particle trails
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      particles.forEach((particle, index) => {
+      particlesRef.current.forEach((particle, index) => {
         particle.x += particle.vx
         particle.y += particle.vy
         particle.pulse += 0.02
@@ -133,7 +123,7 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
 
         // Optimize: Only draw lines for nearby particles and limit calculations
         if (index % 2 === 0) { // Only check every other particle for line connections
-          particles.slice(index + 1, index + 3).forEach((otherParticle) => {
+          particlesRef.current.slice(index + 1, index + 3).forEach((otherParticle) => {
             const dx = particle.x - otherParticle.x
             const dy = particle.y - otherParticle.y
             const distance = Math.sqrt(dx * dx + dy * dy)
@@ -154,18 +144,29 @@ function FuturisticBackground({ theme }: { theme: 'light' | 'dark' }) {
         }
       })
       ctx.shadowBlur = 0
-      requestAnimationFrame(animate)
+      animationRef.current = requestAnimationFrame(animate)
     }
-    animate()
+    
+    animate(0) // Start animation with initial time
+    
     return () => {
       window.removeEventListener('resize', resizeCanvas)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
     }
+  }, []) // Remove theme dependency to prevent recreation
+
+  // Handle theme changes separately without recreating the entire animation
+  useEffect(() => {
+    // Theme changes will now only affect the colors in the animate function
+    // without restarting the entire animation
   }, [theme])
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 }
 
-function FuturisticWaitlistForm({ className = '', theme }: { className?: string; theme: 'light' | 'dark' }) {
+function FuturisticWaitlistForm({ className = '', theme, onClose }: { className?: string; theme: 'light' | 'dark'; onClose: () => void }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { name: '', email: '', goal: '' },
@@ -195,10 +196,12 @@ function FuturisticWaitlistForm({ className = '', theme }: { className?: string;
       console.log('Email sent successfully')
       alert(`Thanks ${values.name}! We'll notify you at ${values.email} when the Academy launches.\nYour goal: ${values.goal}`)
       form.reset()
+      onClose() // Close the popup after successful submission
     } catch (error) {
       console.error('Email failed to send:', error)
       alert('Thanks for signing up! We received your information and will be in touch soon.')
       form.reset()
+      onClose() // Close the popup even if there's an error
     }
   }
   
@@ -378,7 +381,7 @@ export default function App() {
   ]
 
   const isLight = theme === 'light'
-  const bgColor = isLight ? 'bg-white' : 'bg-navy-900'
+  const bgColor = isLight ? 'bg-gray-50' : 'bg-navy-900'
   const textColor = isLight ? 'text-gray-900' : 'text-white'
   const cardBg = isLight ? 'bg-white/90 border-gray-200 shadow-xl' : 'backdrop-blur-md bg-white/5 border border-white/10'
   const glassEffect = isLight ? 'bg-white/80 border-gray-200' : 'backdrop-blur-md bg-white/10 border border-white/20'
@@ -389,7 +392,6 @@ export default function App() {
       
       <section className="relative min-h-screen min-h-dvh flex items-center justify-center">
         <FuturisticBackground theme={theme} />
-        <div className={`absolute inset-0 ${isLight ? 'bg-gradient-to-b from-transparent via-white/20 to-white/60' : 'bg-gradient-to-b from-transparent via-navy-900/20 to-navy-900/60'}`} />
         <div className={`absolute top-20 left-20 w-32 h-32 ${isLight ? 'bg-cyan-400/20' : 'bg-cyan-400/20'} rounded-full blur-xl animate-pulse`} />
         <div className={`absolute top-40 right-32 w-24 h-24 ${isLight ? 'bg-purple-500/20' : 'bg-purple-500/20'} rounded-full blur-xl animate-pulse delay-1000`} />
         <div className={`absolute bottom-40 left-32 w-40 h-40 ${isLight ? 'bg-pink-500/20' : 'bg-pink-500/20'} rounded-full blur-xl animate-pulse delay-2000`} />
@@ -442,7 +444,7 @@ export default function App() {
                 <CardContent className="p-6">
                   <ul className={`space-y-4 ${isLight ? 'text-green-700' : 'text-green-300'}`}>
                     {[
-                      'You\'re a professional, freelancer or entrepreneur, ready to reclaim <strong>5+ hours</strong> a week, stay ahead in their field.',
+                      'You\'re a professional, freelancer or entrepreneur, looking to stay <strong>ahead</strong> in their field and reclaim <strong>5+ hours</strong> a week.',
                       'You use Chatgpt and know AI is much more than a replacement for Google and want to unlock its <strong>real</strong> potential.',
                       'You\'re ambitious and smart enough to see the truth: those who master AI will <strong>outperform</strong> those who don\'t.',
                       'You want future you saying "I can\'t believe this <strong>used to</strong> take me forever!".',
@@ -686,7 +688,7 @@ export default function App() {
                 </Button>
               </CardHeader>
               <CardContent>
-                <FuturisticWaitlistForm theme={theme} />
+                <FuturisticWaitlistForm theme={theme} onClose={() => setIsWaitlistOpen(false)} />
               </CardContent>
             </Card>
           </div>
