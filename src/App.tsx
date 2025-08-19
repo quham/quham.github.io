@@ -177,17 +177,17 @@ function FuturisticWaitlistForm({ className = '', theme }: { className?: string;
       const emailjs = await import('@emailjs/browser')
       
       // EmailJS configuration - you'll need to set these up
-      const serviceId = 'YOUR_EMAILJS_SERVICE_ID' // Replace with your actual service ID
-      const templateId = 'YOUR_EMAILJS_TEMPLATE_ID' // Replace with your actual template ID
-      const publicKey = 'YOUR_EMAILJS_PUBLIC_KEY' // Replace with your actual public key
+      const serviceId = 'service_aiacademy' // Replace with your actual service ID
+      const templateId = 'template_2m2sof1' // Replace with your actual template ID
+      const publicKey = 'T-dKWrQuIoW25ERlt' // Replace with your actual public key
 
       // Prepare email data
       const templateParams = {
-        to_email: 'your-email@example.com', // Replace with your actual email
+        to_email: 'quhamadefie@gmail.com', // Replace with your actual email
         from_name: values.name,
         from_email: values.email,
         goal: values.goal,
-        message: `New waitlist signup from ${values.name} (${values.email})\n\nGoal: ${values.goal}`
+        // message: `New waitlist signup from ${values.name} (${values.email})\n\nGoal: ${values.goal}`
       }
 
       // Send email using EmailJS
@@ -204,8 +204,8 @@ function FuturisticWaitlistForm({ className = '', theme }: { className?: string;
   
   const isLight = theme === 'light'
   const cardClasses = isLight 
-    ? 'bg-white/90 border-gray-200 shadow-xl'
-    : 'backdrop-blur-md bg-white/10 border border-white/20 shadow-2xl'
+    ? 'bg-white/95 border-gray-200 shadow-xl'
+    : 'backdrop-blur-md bg-[#0D1117]/80 border border-[#5B5FEF]/30 shadow-2xl'
   
   const inputClasses = isLight
     ? 'bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-cyan-400 focus:ring-cyan-400/20'
@@ -309,14 +309,10 @@ export default function App() {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   
-
-
   // Set theme on mount and when theme changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
-
-
 
   const modules = [
     {
@@ -420,7 +416,7 @@ export default function App() {
               onClick={() => setIsWaitlistOpen(true)}
               className="w-full max-w-md mx-auto bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 shadow-lg shadow-cyan-500/25 border-0 transition-all duration-300 hover:shadow-cyan-500/40 hover:scale-[1.02]"
             >
-              <Zap className="w-4 h-4 mr-2" /> Join the Future
+              <Zap className="w-4 h-4 mr-2" /> Do more with AI
             </Button>
           </ScrollFadeIn>
         </div>
@@ -446,11 +442,10 @@ export default function App() {
                 <CardContent className="p-6">
                   <ul className={`space-y-4 ${isLight ? 'text-green-700' : 'text-green-300'}`}>
                     {[
-                      'You\'re a professional, freelancer or entrepreneur, ready to reclaim <strong>5+ hours</strong> a week, supercharge their productivity, and stay ahead in their field.',
+                      'You\'re a professional, freelancer or entrepreneur, ready to reclaim <strong>5+ hours</strong> a week, stay ahead in their field.',
                       'You use Chatgpt and know AI is much more than a replacement for Google and want to unlock its <strong>real</strong> potential.',
-                      // 'You\'re ambitious and want to work smarter. You recognise better use of AI will mean you <strong>outperform</strong> everyone else.',
                       'You\'re ambitious and smart enough to see the truth: those who master AI will <strong>outperform</strong> those who don\'t.',
-                      'You\'re someone drowning in routine tasks that take hours instead of minutes. You want that "This <strong>used to</strong>  take me forever!" breakthrough.', //vs that "I can\'t believe I used to do this manually!" moment
+                      'You want future you saying "I can\'t believe this <strong>used to</strong> take me forever!".',
                     ].map((text) => (
                       <li key={text} className="flex items-start group transition-colors">
                         <div className={`w-6 h-6 ${isLight ? 'bg-green-500/20' : 'bg-green-400/20'} rounded-full flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 group-hover:bg-green-400/30 transition-colors`}>
@@ -476,7 +471,7 @@ export default function App() {
                     {[
                       'Looking for AI theory? Sorry we\'re here to make you unstoppable <strong>using</strong> AI, not explain what\'s under the hood.',
                       'You want to code or build models from scratch. There\'s no coding here (Except in English).',
-                      'You don\'t have a business, idea, project, or real-life context to <strong>apply</strong> these skills (e.g. most students).',
+                      'You don\'t have a business, idea, project, or real-life context to <strong>apply</strong> these skills.',
                       'You don\'t have any computer-based work (e.g., manual labour roles) so your potential for AI application is limited.',
                     ].map((text) => (
                       <li key={text} className="flex items-start group transition-colors">
